@@ -6,31 +6,29 @@
         git@github.com:chituandrei/MedicalProject.git
 # Step 2:
 #   Now you must have the repository local
-#   We work just with branch main no need to other branches
-#   git status in terminal
-#   It should say you are on main branch up to date if not
-#   git pull
+#   How to work? Go into github repository, go to issues, select the ticket 
+#   you want to work with. Create a branch from right options 'Development'
+#   Select : Repository destination -> chituandrei / MedicalProject
+#   branch name : leave it as it is
+#   press create branch
+#   then you will see to type 2 commands into your terminal
 
 # Step 3:
-#   If you are on branch main up to date you may start coding
+#   After you completed all steps above you can work locally on your branch
 #   Now go in terminal into the repo go to /medical-app and type 
-#   npm start
-#   It should open a web browser where you can see all your changes to the repo
-
-# Step 4:
-#   Test what you are doing and see if it works. After you are done doing your task
-#   make sure to update your repo before pushing ! Someone might do some modifications
-#   while you were working on the repo.
-#   git status again if not up to date to main git pull
-#   After you are up to date, check the functionality again
-#   Check again git status, if up to date 
+#   You will see the application that is on main branch
+#   This is where you can test all you are doing
+#   Push all changes to your branch when you are done with something
 #   git commit -m "Describe short your modifications" E.G: "Creating signup interface"
 #   git push
 
-# Step 5: 
-#   Now the modifications that you made are into the main repo
-#   In order to push them to the website it self you need to press in your terminal
-#   (make sure you are in medical-app directory) 
-#   npm run deploy
+# Step 4:
+#   You have completed the task, so you need to create a pull request. 
+#   Go to github, go to the repo, go to Pull Request, press New pull request
+#   Select from here where you want to go, first box : main, and what you want to go there
+#   second box (the branch you worked on).
 
-# Now all changes should be visible to : https://chituandrei.github.io/MedicalProject/ 
+# Step 5:
+#   The pull request will need 2 approvals after merge. Check what a conflict is
+#   https://docs.gitlab.com/ee/user/project/merge_requests/conflicts.html
+#   Resolve all conflicts, get approval and then merge
