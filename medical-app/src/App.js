@@ -13,24 +13,14 @@ import ContactPage from './components/Contact/Contact_index';
 
 function App() {
   return (
-    <Router>
-
-            <TopBar />
-            <Routes>
-              <Route exact path="/" element={<HomePage/>} />
-                <Route
-                    path="/login"
-                    element={<LoginPage/>}
-                />
-                <Route
-                    path="/signup"
-                    element={<SignupPage/>}
-                />
-                <Route
-                    path="/contact"
-                    element={<ContactPage/>}
-                />
-            </Routes>
+    <Router basename="/MedicalProject"> {/* Setează aici ruta de bază */}
+      <TopBar />
+      <Routes>
+        <Route exact path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+      </Routes>
     </Router>
   );
 }

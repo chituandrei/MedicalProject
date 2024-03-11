@@ -8,10 +8,10 @@ const TopBar = () => {
     <div className="topbar">
       <nav>
         <ul>
-          <li><a href = "/">Home</a></li>
-          <li><a href="/contact">Contact</a></li>
-          <li><a href="/signup">Signup</a></li>
-          <li><a href="/login">Login</a></li>
+          <li><a href = "/MedicalProject">Home</a></li>
+          <li><a href="/MedicalProject/contact">Contact</a></li>
+          <li><a href="/MedicalProject/signup">Signup</a></li>
+          <li><a href="/MedicalProject/login">Login</a></li>
         </ul>
       </nav>
     </div>
