@@ -1,0 +1,13 @@
+// SignupPage.js
+import React from 'react';
+
+const SignupPage = () => {
+  return (
+    <div>
+      <h1>Signup Page</h1>
+      {/* Add signup form and other components */}
+    </div>
+  );
+}
+
+export default SignupPage;
