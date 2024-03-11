@@ -1,0 +1,34 @@
+/* TopBar.css */
+
+.topbar {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    display: flex;
+    justify-content: left; /* Align items to the right */
+  }
+
+  .topbar nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .topbar nav ul li {
+    display: inline;
+    margin-left: 20px; /* Adjust spacing between items */
+  }
+  
+  .topbar nav ul li:first-child {
+    margin-left: 0; /* Remove margin for the first child */
+  }
+  
+  .topbar nav ul li a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .topbar nav ul li a:hover {
+    color: #ccc;
+  }
+  
