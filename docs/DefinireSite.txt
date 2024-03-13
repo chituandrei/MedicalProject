@@ -1,0 +1,35 @@
+Pagini 
+- home 
+    - > contact jos 
+    - > how to use
+    - > prezentare
+    - > doctori (parteneri) + domenii etc
+- navbar 
+    - > home
+    - > sing up
+    - > log in
+    
+    + diferente interfata doctor pacient
+navbar before login
+navbar pacient
+navbar doctor
+
+- log in
+    - > email
+    -> parola
+    -> redirect sing up 
+    -> Mi-am uitat parola 
+- sing up
+
+-logo
+
+- register
+    -> nume 
+    -> prenume
+    -> data nastere 
+    -> email
+    -> parola 
+    -> CNP 
+    -> Sexul
+    -> Telefon
+    

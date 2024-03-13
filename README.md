@@ -1,34 +1,6 @@
-# Workflow in medical-app data
-# Step 1: (if you already have the repo locally skip this)
-#   If you are using github with https (needs username and password)
-#       git clone https://github.com/chituandrei/MedicalProject.git
-#   If you are using ssh connection to github
-        git@github.com:chituandrei/MedicalProject.git
-# Step 2:
-#   Now you must have the repository local
-#   How to work? Go into github repository, go to issues, select the ticket 
-#   you want to work with. Create a branch from right options 'Development'
-#   Select : Repository destination -> chituandrei / MedicalProject
-#   branch name : leave it as it is
-#   press create branch
-#   then you will see to type 2 commands into your terminal
+Frontend : React
+Style : TBE
+Backend : Pyhton
+Database : MongoDB
 
-# Step 3:
-#   After you completed all steps above you can work locally on your branch
-#   Now go in terminal into the repo go to /medical-app and type 
-#   You will see the application that is on main branch
-#   This is where you can test all you are doing
-#   Push all changes to your branch when you are done with something
-#   git commit -m "Describe short your modifications" E.G: "Creating signup interface"
-#   git push
-
-# Step 4:
-#   You have completed the task, so you need to create a pull request. 
-#   Go to github, go to the repo, go to Pull Request, press New pull request
-#   Select from here where you want to go, first box : main, and what you want to go there
-#   second box (the branch you worked on).
-
-# Step 5:
-#   The pull request will need 2 approvals after merge. Check what a conflict is
-#   https://docs.gitlab.com/ee/user/project/merge_requests/conflicts.html
-#   Resolve all conflicts, get approval and then merge
+Medical app
