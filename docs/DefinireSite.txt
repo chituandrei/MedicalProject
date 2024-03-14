@@ -32,4 +32,7 @@ navbar doctor
     -> CNP 
     -> Sexul
     -> Telefon
+
+-register separat pt doctor
+    ->Adauga legitimatie
     
