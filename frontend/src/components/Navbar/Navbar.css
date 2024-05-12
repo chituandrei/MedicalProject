@@ -1,0 +1,132 @@
+.Navbar {
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(rgb(218, 86, 137),rgb(245, 136, 176), rgb(233, 155, 183), rgb(245, 198, 213));
+}
+
+.Navbar > .nav-logo {
+  font-weight: 700;
+  font-size: 21px;
+  margin: 15px;
+  color: black;
+}
+
+.Navbar > .nav-items > a {
+  color: rgb(9, 99, 7);
+  font-size: 16px;
+  text-decoration: none;
+  margin: 15px;
+  position: relative;
+  opacity: 0.9;
+}
+
+.Navbar > .nav-items > a:hover {
+  opacity: 1;
+}
+
+.Navbar > .nav-items > a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: rgb(9, 99, 7);
+  transition: all 0.45s;
+}
+
+.Navbar > .nav-items > a:hover::before {
+  width: 100%;
+}
+
+.Navbar > .nav-toggle {
+  display: none;
+}
+
+.logo {
+  width: 80px;
+  height: 120px; 
+  object-fit: contain; 
+  cursor: pointer;
+}
+
+
+@media (max-width: 700px) {
+  .Navbar > .nav-items {
+    position: absolute;
+    top: 60px;
+    display: flex;
+    flex-direction: column;
+    /* background:  rgb(245, 198, 213); */
+    background: linear-gradient(to top, rgb(218, 86, 137),rgb(245, 136, 176), rgb(233, 155, 183), rgb(245, 198, 213));
+    left: 0;
+    width: 20%;
+    height: 100%;
+    transform: translateX(-100%);
+    transition: all .45s;
+  }
+
+  .Navbar > .nav-items > a::before {
+      background: transparent;
+  }
+
+  .Navbar > .nav-items.open {
+      transform: translateX(0);
+  }
+
+  .Navbar > .nav-toggle {
+    display: flex;
+    width: 50px;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .nav-toggle > .bar {
+    position: relative;
+    width: 32px;
+    height: 2px;
+    background: rgb(9, 99, 7);
+    transition: all 0.45s ease-in-out;
+  }
+
+  .nav-toggle > .bar::before,
+  .nav-toggle > .bar::after {
+    content: "";
+    position: absolute;
+    height: 2px;
+    background: rgb(9, 99, 7);
+    border-radius: 2px;
+    transition: all 0.45s ease-in-out;
+  }
+
+  .nav-toggle > .bar::before {
+    width: 25px;
+    transform: translateY(-8px);
+    right: 0;
+  }
+
+  .nav-toggle > .bar::after {
+    width: 32px;
+    transform: translateY(8px);
+  }
+
+  .nav-toggle.open > .bar {
+      transform: translateX(-40px);
+      background: transparent;
+  }
+
+  .nav-toggle.open > .bar::before {
+      width: 32px;
+      transform: rotate(45deg) translate(26px, -26px);
+  }
+
+  .nav-toggle.open > .bar::after {
+    transform: rotate(-45deg) translate(26px, 26px);
+  }
+
+
+}
