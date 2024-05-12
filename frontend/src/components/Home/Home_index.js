@@ -1,6 +1,6 @@
 import React from 'react';
-import Logo from "/home/alex/MedicalApp/MedicalProject/frontend/src/components/Home/logo_medwise-removebg-preview.png";
-import backgroundImage from "/home/alex/MedicalApp/MedicalProject/frontend/src/components/Home/cover.jpg";
+import Logo from "./logo_medwise-removebg-preview.png";
+import backgroundImage from "./cover.jpg";
 import './index.css';
 import ContactForm from './ContactForm';
 
