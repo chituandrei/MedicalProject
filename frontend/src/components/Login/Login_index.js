@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './Login.css'
-import logo from './logo.png';
+import logo from '../images/logo.png';
 // import { determineAccountType } from './LoginUtils'; 
 import TextField from '@mui/material/TextField';
 import Form from 'react-bootstrap/Form';
