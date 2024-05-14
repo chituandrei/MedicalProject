@@ -4,7 +4,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import TopBar from './components/TopBar/TopBar';
+import Navbar from './components/Navbar/Navbar';
 import LoginPage from './components/Login/Login_index';
 import HomePage from './components/Home/Home_index';
 import SignupPage from './components/SignUp/SignUp';
@@ -16,7 +16,7 @@ function App() {
 
   return (
     <Router basename="/MedicalProject"> {/* Setează aici ruta de bază */}
-      <TopBar />
+      <Navbar />
       <Routes>
         <Route exact path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
