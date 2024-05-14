@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import emailjs from '@emailjs/browser';
-import Logo from "/home/alex/MedicalApp/MedicalProject/frontend/src/components/Home/logo_medwise-removebg-preview.png";
-
+import Logo from "../images/logo_medwise-removebg-preview.png";
 
 const ContactForm = () => {
         const [isSubmitting, setIsSubmitting] = useState(false);
@@ -93,4 +92,5 @@ const ContactForm = () => {
           
         );
       };
-      export default ContactForm;
+
+export default ContactForm;
