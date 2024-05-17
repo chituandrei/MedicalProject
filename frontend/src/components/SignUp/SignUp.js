@@ -11,6 +11,7 @@ import Logo from "../images/logo_medwise-removebg-preview.png";
 import './SignUp.css';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import axios from 'axios';
 
 const SignUp = () => {
   const [firstName, setFirstName] = useState('');
@@ -48,9 +49,33 @@ const SignUp = () => {
     },
   });
 
-  const onRegisterClick = () => {
-    // Your registration logic here
-    // Validate inputs and navigate accordingly
+const onRegisterClick = () => {
+
+    const userData = {
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      password: password,
+      age: age,
+      gender: gender,
+      phone_number: phoneNumber
+    };
+    
+    console.log(userData)
+
+    axios.post('http://127.0.0.1:8000/register', userData, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      console.log('Response from server:', response.data);
+      // Pot fi adăugate acțiuni suplimentare aici, cum ar fi redirecționarea către o altă pagină sau afișarea unui mesaj de succes
+    })
+    .catch(error => {
+      console.error('Error registering user:', error);
+      // Tratarea erorilor aici, cum ar fi afișarea unui mesaj de eroare către utilizator
+    });
   };
 
   return (

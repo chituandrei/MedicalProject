@@ -19,7 +19,7 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import HealingTwoToneIcon from '@mui/icons-material/HealingTwoTone';
 import PermIdentityTwoToneIcon from '@mui/icons-material/PermIdentityTwoTone';
-
+import axios from 'axios';
 
 
 const Login = (props) => {
@@ -55,7 +55,7 @@ const Login = (props) => {
   });
 
 
-  const onButtonClick = () => {
+  const onButtonClick = async () => {
      // Set initial error values to empty
     setEmailError('')
     setPasswordError('')
@@ -95,13 +95,26 @@ const Login = (props) => {
       return
     }
 
-    if (accountType === 'Pacient') {
-      navigate('/pacient');
-    } else if (accountType === 'Doctor') {
-      navigate('/doctor');
-    } else {
-      // Handle other account types or errors
-    }
+    axios.post('http://127.0.0.1:8000/login', {email, password}, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      console.log('Response from server:', response.data);
+      if (response.data['message'] === 'Pacient') {
+        navigate('/pacient');
+      }
+      else if (response.data['message'] === 'Doctor') {
+        navigate('/doctor');
+      }
+    })
+    .catch(error => {
+      console.error('Error login user:', error);
+      setEmailError('Email or password incorrect!')
+      setEmailTag('error')
+      return
+    });
   }
 
 
@@ -127,8 +140,6 @@ const Login = (props) => {
               exclusive
               onChange={(ev) => setAccountType(ev.target.value)}
               aria-label="Platform">
-              <ToggleButton value={'Pacient'}><PermIdentityTwoToneIcon></PermIdentityTwoToneIcon> Pacient</ToggleButton>
-              <ToggleButton value={'Doctor'}><HealingTwoToneIcon></HealingTwoToneIcon> Doctor</ToggleButton>
             </ToggleButtonGroup>
             <br />
             <TextField id="email-field"
