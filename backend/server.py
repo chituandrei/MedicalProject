@@ -7,6 +7,7 @@ import jwt
 import re
 from urllib.parse import quote_plus
 from utils import *
+import uuid
 
 app = FastAPI()
 
@@ -54,12 +55,13 @@ async def start():
     return {"collections": collections}
 
 class Pacient(BaseModel):
+    id: str
     first_name: str
     last_name: str
     email: str
     password: str
-    age: str    
-    gender:str
+    age: str
+    gender: str
     phone_number: str
 
 class LoginData(BaseModel):
@@ -82,6 +84,7 @@ async def register_user(user_data: Pacient):
 
         # Insert user data into the "pacients" collection
         db[PACIENTI_DB_ACCOUNTS].insert_one({
+            "id" : user_data.id,
             "first_name": user_data.first_name,
             "last_name": user_data.last_name,
             "email": user_data.email,

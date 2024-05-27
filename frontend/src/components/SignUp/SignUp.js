@@ -12,6 +12,7 @@ import './SignUp.css';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
 const SignUp = () => {
   const [firstName, setFirstName] = useState('');
@@ -52,6 +53,7 @@ const SignUp = () => {
 const onRegisterClick = () => {
 
     const userData = {
+      id: uuidv4(), // Generare ID unic pentru utilizator
       first_name: firstName,
       last_name: lastName,
       email: email,
@@ -60,6 +62,12 @@ const onRegisterClick = () => {
       gender: gender,
       phone_number: phoneNumber
     };
+
+    if (password.length < 8) {
+      setPasswordError('Password must be at least 8 characters long');
+      return;
+    }
+
     
     console.log(userData)
 
@@ -70,11 +78,10 @@ const onRegisterClick = () => {
     })
     .then(response => {
       console.log('Response from server:', response.data);
-      // Pot fi adăugate acțiuni suplimentare aici, cum ar fi redirecționarea către o altă pagină sau afișarea unui mesaj de succes
+      navigate('/thank-you');
     })
     .catch(error => {
       console.error('Error registering user:', error);
-      // Tratarea erorilor aici, cum ar fi afișarea unui mesaj de eroare către utilizator
     });
   };
 
