@@ -5,14 +5,14 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import PermIdentityTwoToneIcon from '@mui/icons-material/PermIdentityTwoTone';
-import HealingTwoToneIcon from '@mui/icons-material/HealingTwoTone';
 import Logo from "../images/logo_medwise-removebg-preview.png";
 import './SignUp.css';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import FaceIcon from '@mui/icons-material/Face';
+import Face3Icon from '@mui/icons-material/Face3';
 
 const SignUp = () => {
   const [firstName, setFirstName] = useState('');
@@ -88,50 +88,72 @@ const onRegisterClick = () => {
   return (
     <ThemeProvider theme={theme}>
       <Grid container spacing={20} columns={12}>
-        <Grid item xs={2} />
+        <Grid item xs={1} />
         <Grid item xs={4}>{ /* Adjust logo dimension */}
+        <br />
+        <br />
+        <br />
           <div className={'logoContainer'}>
           <img width='450vw' src={Logo} alt="Logo" />
           </div>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={5}>
           <div className={'mainContainer'}>
             <div className={'titleContainer'}>
               <div>Sign Up</div>
             </div>
             <br />
-            <ToggleButtonGroup
-              color="primary"
-              value={gender}
-              exclusive
-              onChange={(ev) => setGender(ev.target.value)}
-              aria-label="Platform"
-            >
-              <ToggleButton value={'Male'}><PermIdentityTwoToneIcon /> Male</ToggleButton>
-              <ToggleButton value={'Female'}><HealingTwoToneIcon /> Female</ToggleButton>
-            </ToggleButtonGroup>
-            <br />
+            <Grid container spacing={4} columns={2}>
+              <Grid item xs={1}>
+                <TextField
+                  id="first-name-field"
+                  label="First Name"
+                  variant="outlined"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  error={!!firstNameError}
+                  helperText={firstNameError}/>
+                <br />
+                <TextField
+                  sx={{
+                    margin: "20px 0",
+                  }} 
+                  id="phone-number-field"
+                  label="Phone Number"
+                  variant="outlined"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  error={!!phoneNumberError}
+                  helperText={phoneNumberError}/>
+              </Grid>
+              <Grid item xs={1}>
+                <TextField
+                id="last-name-field"
+                label="Last Name"
+                variant="outlined"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                error={!!lastNameError}
+                helperText={lastNameError}/>
+                <br />
+                <TextField
+                  sx={{
+                    margin: "20px 0",
+                  }} 
+                  id="age-field"
+                  label="Age"
+                  variant="outlined"
+                  value={age}
+                  onChange={(e) => setAge(e.target.value)}
+                  error={!!ageError}
+                  helperText={ageError}
+                />
+              </Grid>
+            </Grid>
             <TextField
-              id="first-name-field"
-              label="First Name"
-              variant="outlined"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              error={!!firstNameError}
-              helperText={firstNameError}
-            />
-            <br />
-            <TextField
-              id="last-name-field"
-              label="Last Name"
-              variant="outlined"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              error={!!lastNameError}
-              helperText={lastNameError}
-            />
-            <br />
-            <TextField
+              sx={{
+                width: "34vw",
+              }} 
               id="email-field"
               label="Email"
               variant="outlined"
@@ -142,6 +164,9 @@ const onRegisterClick = () => {
             />
             <br />
             <TextField
+              sx={{
+                width: "34vw",
+              }} 
               id="password-field"
               label="Password"
               variant="outlined"
@@ -152,25 +177,15 @@ const onRegisterClick = () => {
               helperText={passwordError}
             />
             <br />
-            <TextField
-              id="age-field"
-              label="Age"
-              variant="outlined"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
-              error={!!ageError}
-              helperText={ageError}
-            />
-            <br />
-            <TextField
-              id="phone-number-field"
-              label="Phone Number"
-              variant="outlined"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              error={!!phoneNumberError}
-              helperText={phoneNumberError}
-            />
+            <ToggleButtonGroup
+              color="primary"
+              value={gender}
+              exclusive
+              onChange={(ev) => setGender(ev.target.value)}
+              aria-label="Platform">
+              <ToggleButton value={'Male'} sx={{width: "10vw"}}><FaceIcon /> Male</ToggleButton>
+              <ToggleButton value={'Female'} sx={{width: "10vw"}}><Face3Icon /> Female</ToggleButton>
+            </ToggleButtonGroup>
             <br />
             <Box sx={{ '& button': { m: 1 } }}>
               <Button variant="contained" size="large" color="secondary" onClick={onRegisterClick}>
