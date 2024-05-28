@@ -9,6 +9,8 @@ import Logo from "../images/logo_medwise-removebg-preview.png";
 import './SignUp.css';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 import FaceIcon from '@mui/icons-material/Face';
 import Face3Icon from '@mui/icons-material/Face3';
 
@@ -48,9 +50,39 @@ const SignUp = () => {
     },
   });
 
-  const onRegisterClick = () => {
-    // Your registration logic here
-    // Validate inputs and navigate accordingly
+const onRegisterClick = () => {
+
+    const userData = {
+      id: uuidv4(), // Generare ID unic pentru utilizator
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      password: password,
+      age: age,
+      gender: gender,
+      phone_number: phoneNumber
+    };
+
+    if (password.length < 8) {
+      setPasswordError('Password must be at least 8 characters long');
+      return;
+    }
+
+    
+    console.log(userData)
+
+    axios.post('http://127.0.0.1:8000/register', userData, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      console.log('Response from server:', response.data);
+      navigate('/thank-you');
+    })
+    .catch(error => {
+      console.error('Error registering user:', error);
+    });
   };
 
   return (
