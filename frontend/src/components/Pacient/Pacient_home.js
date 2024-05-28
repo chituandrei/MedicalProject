@@ -144,38 +144,41 @@ const PacientHomePage = () => {
               <ListItemText primary="Vaccinuri" secondary="Empty" />
             </ListItem>
           </List>
-          <Button 
-            variant="contained" 
-            size="large" 
-            sx={{
-              backgroundColor: '#FF90BC', 
-              marginTop: '20px', 
-              '&:hover': {
-                backgroundColor: '#FFC0D9', 
-              },
-            }}
-          >
-            Editeaza Profilul
-          </Button>
+          <div>
+          <a href="/MedicalProject/editeaza_pacient" style={{ textDecoration: 'none' }}>
+            <Button
+              variant="contained"
+              size="large"
+              sx={{
+                backgroundColor: '#FF90BC', // Change this color to your desired color
+                '&:hover': {
+                  backgroundColor: '#FFC0D9', // Change this color to your desired hover color
+                },
+              }}
+            >
+              Profilul Pacientului
+            </Button>
+          </a>
+        </div>
         </Container>
       </Box>
       <br />
-      <div>
+      <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }}>
         <a href="/MedicalProject/doctor_list" style={{ textDecoration: 'none' }}>
           <Button
             variant="contained"
             size="large"
             sx={{
-              backgroundColor: '#FF90BC', // Change this color to your desired color
+              backgroundColor: '#FF90BC',
               '&:hover': {
-                backgroundColor: '#FFC0D9', // Change this color to your desired hover color
+                backgroundColor: '#FFC0D9',
               },
             }}
           >
-            Profilul Pacientului
+            Vizualizeaza doctorii
           </Button>
         </a>
-      </div>
+      </Box>
     </React.Fragment>
   );
 }
