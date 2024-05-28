@@ -1,10 +1,11 @@
 import React from 'react';
+import ContactForm from './ContactForm';
 
 const ContactPage = () => {
   return (
     <div>
-      {/* Add login form and other components */
-      }
+      <ContactForm />
+      {/* Add login form and other components */}
     </div>
   );
 }

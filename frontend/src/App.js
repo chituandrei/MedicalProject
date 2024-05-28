@@ -12,6 +12,7 @@ import ContactPage from './components/Contact/Contact_index';
 import PacientHomePage from './components/Pacient/Pacient_home';
 import DoctorHomePage from './components/Doctor/Doctor_home';
 import ThankYouPage from './components/SignUp/ThankYou';
+import Doctor_list from './components/Pacient/DoctorList';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
         <Route path="/pacient" element={<PacientHomePage />} />
         <Route path="/doctor" element={<DoctorHomePage />} />
         <Route path="/thank-you" element={<ThankYouPage />} />
+        <Route path="/doctor_list" element={<Doctor_list />} />
 
       </Routes>
     </Router>

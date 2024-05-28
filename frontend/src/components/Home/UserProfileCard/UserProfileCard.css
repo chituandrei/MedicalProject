@@ -1,0 +1,43 @@
+.upc{
+    width: 350px;
+    margin: 20px;
+    border-radius: 4px;
+    padding-bottom: 20px;
+    background: pink;
+}
+
+.profile-down img{
+    height: 150px;
+    border-radius: 100px;
+    margin-top: 15px;
+    padding: 5px;
+    background: pink;
+}
+
+.profile-title{
+    font-size: 36px;
+    font-weight: 600;
+}
+
+.profile-description{
+    padding: 20px 40px;
+    font-size: 16px;
+}
+
+.profile-button{
+    font-size: 16px;
+    background:green;
+    margin: 10px 100px;
+    padding-top: 8px;
+    padding-bottom: 10px;
+    border-radius: 40px;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+.profile-description + .profile-description {
+    margin-top: -30px; /* Add some space between descriptions */
+}
