@@ -34,9 +34,21 @@ const MyIcon = ({ gender }) => {
 
 const MyButton = ({ gender }) => {
   if (gender === "Male") {
-    return <Button size="small" color='secondary'>Medical History</Button>
+    return (
+      <div>
+        <a href="/MedicalProject/my_pacient" style={{ textDecoration: 'none' }}>
+          <Button size="small" color='secondary'>Medical History</Button>
+        </a>
+      </div>
+    );
   } else {
-    return <Button size="small" color='primary'>Medical History</Button>;
+    return (
+      <div>
+        <a href="/MedicalProject/my_pacient" style={{ textDecoration: 'none' }}>
+          <Button size="small" color='secondary'>Medical History</Button>
+        </a>
+      </div>
+    );
   }
 };
 
@@ -57,11 +69,17 @@ const CardComponent = ({ pacient }) => (
         Age: {pacient.age}
         <br />
         Gender: {pacient.gender}
+        <br />
+        Blood Type: {pacient.grupa_de_sange}
+        <br />
+        Medications: {pacient.medicamente}
+        <br />
+        Vaccines: {pacient.vaccinuri}
       </Typography>
     </CardContent>
-    <CardActions>
+    {/* <CardActions>
       <MyButton gender={pacient.gender} />
-    </CardActions>
+    </CardActions> */}
   </Card>
 );
 
