@@ -56,7 +56,7 @@ const MyButton = ({ gender }) => {
 const CardComponent = ({ pacient }) => (
   <Card variant="outlined">
     <CardContent>
-      <MyIcon gender={pacient.gender} />
+      <MyIcon gender={pacient["Gender"]} />
       <Typography variant="h5" component="div">
         {pacient.first_name} {pacient.last_name}
       </Typography>
