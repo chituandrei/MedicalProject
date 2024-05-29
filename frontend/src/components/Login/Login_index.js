@@ -159,7 +159,8 @@ const Login = (props) => {
               value={email} 
               onChange={(ev) => setEmail(ev.target.value)} />
             <br />
-            <TextField id="password-field" 
+            <TextField 
+              id="password-field" 
               error={passwordTag}
               sx={{
                 width: 300,
@@ -168,8 +169,9 @@ const Login = (props) => {
               variant="outlined" 
               helperText={passwordError} 
               value={password} 
-              onChange={(ev) => setPassword(ev.target.value)} />
-            <br />
+              onChange={(ev) => setPassword(ev.target.value)}
+              type="password"  // Setează tipul câmpului la "password"
+            />
             <Box sx={{ '& button': { m: 1 } }}>
               <div>
                 <Button variant="contained" size="large" color='secondary' onClick={onButtonClick}>
