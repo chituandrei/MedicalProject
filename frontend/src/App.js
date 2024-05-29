@@ -13,6 +13,7 @@ import PacientHomePage from './components/Pacient/Pacient_home';
 import DoctorHomePage from './components/Doctor/Doctor_home';
 import ThankYouPage from './components/SignUp/ThankYou';
 import Doctor_list from './components/Pacient/DoctorList';
+import MyPacient from './components/Doctor/My_Pacient';
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/doctor" element={<DoctorHomePage />} />
         <Route path="/thank-you" element={<ThankYouPage />} />
         <Route path="/doctor_list" element={<Doctor_list />} />
+        <Route path="/my_pacient" element={<MyPacient />} />
 
       </Routes>
     </Router>
