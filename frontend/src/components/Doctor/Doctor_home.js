@@ -1,5 +1,5 @@
 // SignupPage.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -12,6 +12,7 @@ import './Doctor.css'
 import logo from '../images/logo_medwise-removebg-preview.png';
 import FaceIcon from '@mui/icons-material/Face';
 import Face3Icon from '@mui/icons-material/Face3';
+import axios from 'axios';
 
 
 
@@ -66,15 +67,19 @@ const CardComponent = ({ pacient }) => (
         {pacient.phone_number}
       </Typography>
       <Typography variant="body2">
-        Age: {pacient.age}
+        FirstName: {pacient["First Name"]}
         <br />
-        Gender: {pacient.gender}
+        LastName: {pacient["Last Name"]}
         <br />
-        Blood Type: {pacient.grupa_de_sange}
+        Age: {pacient["Age"]}
         <br />
-        Medications: {pacient.medicamente}
+        Gender: {pacient["Gender"]}
         <br />
-        Vaccines: {pacient.vaccinuri}
+        Blood Type: {pacient["Blood Type"]}
+        <br />
+        Medications: {pacient["Medications"]}
+        <br />
+        Vaccines: {pacient["Vaccines"]}
       </Typography>
     </CardContent>
     {/* <CardActions>
@@ -101,97 +106,50 @@ const theme = createTheme({
 });
 
 const DoctorHomePage = () => {
-  const pacients = [
-    {
-      "_id":{"$oid":"6654e9dfab6df49a913f76e7"},
-      "first_name":"Andrei",
-      "last_name":"Chitu",
-      "email":"andreichitu38@yahoo.com",
-      "password":"$2b$12$AZ0ozXmtcGO4jzpQ/.UCH.I7m7iu6klLx.WjJm2EnNUCy26//oFsm",
-      "age":"23",
-      "gender":"Male",
-      "phone_number":"0744272599",
-      "account_type":"Pacient"
-    },
-    {
-      "_id":{"$oid":"6655f82784e26f1b49db3879"},
-      "id":"c9f600bb-59c9-4309-87a5-6b32aaa628de",
-      "first_name":"bla",
-      "last_name":"bla",
-      "email":"blabla@gmail.com",
-      "password":"$2b$12$j4Q9fxXqq0D0p0q0aipuTe30mXR2C9J6zwUV7RGf7AIYcCS5yhPv.",
-      "age":"30",
-      "gender":"Female",
-      "phone_number":"0712345678",
-      "account_type":"Pacient"
-    },
-    {
-      "_id":{"$oid":"6655f82784e26f1b49db3879"},
-      "id":"c9f600bb-59c9-4309-87a5-6b32aaa628de",
-      "first_name":"yuhu",
-      "last_name":"bla",
-      "email":"blabla@gmail.com",
-      "password":"$2b$12$j4Q9fxXqq0D0p0q0aipuTe30mXR2C9J6zwUV7RGf7AIYcCS5yhPv.",
-      "age":"30",
-      "gender":"Male",
-      "phone_number":"0712345678",
-      "account_type":"Pacient"
-    },
-    {
-      "_id":{"$oid":"6655f82784e26f1b49db3879"},
-      "id":"c9f600bb-59c9-4309-87a5-6b32aaa628de",
-      "first_name":"lalalla",
-      "last_name":"bla",
-      "email":"blabla@gmail.com",
-      "password":"$2b$12$j4Q9fxXqq0D0p0q0aipuTe30mXR2C9J6zwUV7RGf7AIYcCS5yhPv.",
-      "age":"30",
-      "gender":"Female",
-      "phone_number":"0712345678",
-      "account_type":"Pacient"
-    },
-    {
-      "_id":{"$oid":"6655f82784e26f1b49db3879"},
-      "id":"c9f600bb-59c9-4309-87a5-6b32aaa628de",
-      "first_name":"adfaddf",
-      "last_name":"dfafa",
-      "email":"blabla@gmail.com",
-      "password":"$2b$12$j4Q9fxXqq0D0p0q0aipuTe30mXR2C9J6zwUV7RGf7AIYcCS5yhPv.",
-      "age":"30",
-      "gender":"Male",
-      "phone_number":"0712345678",
-      "account_type":"Pacient"
-    }
-  ];
+  const [pacients, setPacients] = useState([]);
+
+  useEffect(() => {
+    const fetchPacients = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/get_all_pacients');
+        setPacients(response.data.data);
+      } catch (error) {
+        console.error('Error fetching pacients:', error);
+      }
+    };
+
+    fetchPacients();
+  }, []);
 
   const halfLength = Math.ceil(pacients.length / 2);
   const firstHalfPacients = pacients.slice(0, halfLength);
+  console.log(firstHalfPacients)
   return (
     <ThemeProvider theme={theme}>
-    <div className={'mainCont'}>
-      <br />
-      <img width='300vw' src={logo} alt="Logo" />
-      <h1>Welcome! Your patients need you!</h1>
-      <br />
-      <Grid container spacing={1} columns={4}>
-      <Grid item xs={1}>
+      <div className={'mainCont'}>
+        <br />
+        <img width='300vw' src={logo} alt="Logo" />
+        <h1>Welcome! Your patients need you!</h1>
+        <br />
+        <Grid container spacing={1} columns={4}>
+          <Grid item xs={1}>
+          </Grid>
+          <Grid item xs={1}>
+            {firstHalfPacients.map((pacient) => (
+              <Box key={pacient.Email} sx={{ width: 300, mb: 2 }}>
+                <CardComponent pacient={pacient} />
+              </Box>
+            ))}
+          </Grid>
+          <Grid item xs={1}>
+            {pacients.slice(halfLength).map((pacient) => (
+              <Box key={pacient.Email} sx={{ width: 300, mb: 2 }}>
+                <CardComponent pacient={pacient} />
+              </Box>
+            ))}
+          </Grid>
         </Grid>
-        <Grid item xs={1}>
-          {firstHalfPacients.map((pacient) => (
-            <Box key={pacient._id.$oid} sx={{ width: 300, mb: 2 }}>
-              <CardComponent pacient={pacient} />
-            </Box>
-          ))}
-        </Grid>
-        <Grid item xs={1}>
-          {pacients.slice(halfLength).map((pacient) => (
-            <Box key={pacient._id.$oid} sx={{ width: 300, mb: 2 }}>
-              <CardComponent pacient={pacient} />
-            </Box>
-          ))}
-        </Grid>
-      </Grid>
-      
-    </div>
+      </div>
     </ThemeProvider>
   );
 }

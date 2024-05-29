@@ -185,3 +185,45 @@ async def get_pacient_data(pacient_id: str):
             return {"message": "Pacient data not found"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+# Rută pentru a obține toți pacienții
+@app.get("/get_all_pacients")
+async def get_all_pacients():
+    try:
+        pacients = await db[PACIENTI_DB_ACCOUNTS].find().to_list(1000)
+        formatted_pacients = []
+        for pacient in pacients:
+            if pacient.get("account_type") == 'Pacient':
+                formatted_pacients.append({
+                    "First Name": pacient.get("first_name", "undefined"),
+                    "Last Name": pacient.get("last_name", "undefined"),
+                    "Email": pacient.get("email", "undefined"),
+                    "Phone Number": pacient.get("phone_number", "undefined"),
+                    "Gender": pacient.get("gender", "undefined"),
+                    "Age": pacient.get("age", "undefined"),
+                    "Blood Type": pacient.get("grupa_de_sange", "undefined"),
+                    "Medications": pacient.get("medicamente", "undefined"),
+                    "Vaccines": pacient.get("vaccinuri", "undefined")
+                })
+        return {"data": formatted_pacients}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Rută pentru a obține toți doctorii
+@app.get("/get_all_doctors")
+async def get_all_doctors():
+    try:
+        doctors = await db[PACIENTI_DB_ACCOUNTS].find().to_list(1000)
+        formatted_doctors = []
+        for doctor in doctors:
+            if doctor.get("account_type") == 'Doctor':
+                formatted_doctors.append({
+                    "First Name": doctor.get("first_name", "undefined"),
+                    "Last Name": doctor.get("last_name", "undefined"),
+                    "Email": doctor.get("email", "undefined"),
+                    "Gender": doctor.get("gender", "undefined"),
+                    "Specialization": doctor.get("specialitate", "undefined"),
+                })
+        return {"data": formatted_doctors}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
