@@ -7,6 +7,7 @@ import jwt
 import re
 from urllib.parse import quote_plus
 from utils import *
+from typing import Optional
 import uuid
 
 app = FastAPI()
@@ -26,6 +27,7 @@ password = quote_plus('Bazadate')
 connection_string = f"mongodb+srv://{username}:{password}@medicaldb.m0kcn6o.mongodb.net/?retryWrites=true&w=majority&appName=MedicalDB"
 DATABASE_NAME = "MedWiseDB"
 PACIENTI_DB_ACCOUNTS = "Accounts_Pacients"
+ANALIZE_DB_PACIENTI = "Med_Info_Pacients"
 
 # JWT Configuration
 SECRET_KEY = "secret"
@@ -43,6 +45,8 @@ db = client[DATABASE_NAME]
 async def initialize_database():
     if "Accounts_Pacients" not in await db.list_collection_names():
         await db.create_collection("Accounts_Pacients")
+    if "Med_Info_Pacients" not in await db.list_collection_names():
+        await db.create_collection("Med_Info_Pacients")
 
 @app.on_event("startup")
 async def startup_event():
@@ -63,6 +67,11 @@ class Pacient(BaseModel):
     age: str
     gender: str
     phone_number: str
+
+class PatientDetails(BaseModel):
+    grupa_de_sange: str
+    medicamente: str
+    vaccinuri: str
 
 class LoginData(BaseModel):
     email: str
@@ -99,7 +108,11 @@ async def register_user(user_data: Pacient):
         # Handle any exceptions that might occur during insertion
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/login")
+class LoginResponse(BaseModel):
+    account_id: str
+    account_type: str
+
+@app.post("/login", response_model=LoginResponse)
 async def login_pacient(user_data: LoginData):
     try:
         # Check if user with the provided email exists
@@ -107,12 +120,68 @@ async def login_pacient(user_data: LoginData):
         if user:
             # Verify password
             if verify_password(user_data.password, user["password"]):
-                # Authentication successful, return access token or any other data as needed
-                # For demonstration purposes, let's return a success message
-                return {"message": user["account_type"]}
+                # Authentication successful, return account ID and type
+                return {"account_id": str(user["id"]), "account_type": user["account_type"]}
             else:
                 raise HTTPException(status_code=401, detail="Invalid email or password")
         else:
             raise HTTPException(status_code=401, detail="Invalid email or password")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/publish_pacienti/analize/{patient_id}")
+async def publish_patient_details(patient_details: PatientDetails, patient_id):
+    try:
+        # Check if patient_id exists in the database
+        patient_data = await db[PACIENTI_DB_ACCOUNTS].find_one({"id": patient_id})
+        if patient_data:
+            # If patient_id exists, update the record
+            await db[PACIENTI_DB_ACCOUNTS].update_one({"id": patient_id}, {"$set": patient_details.dict()})
+            return {"message": "Patient details published successfully"}
+
+        return {"message" : "Patient not found"}
+    except Exception as e:
+        return {"error": str(e)}
+
+@app.get("/get_pacient/analize/{patient_id}")
+async def get_pacient_analize(patient_id: str):
+    try:
+        pacient_data = await db[PACIENTI_DB_ACCOUNTS].find_one({"id": patient_id})
+
+        if pacient_data:
+            return {
+                "message": "Pacient data found",
+                "data": {
+                    "grupa_sange": pacient_data.get("grupa_de_sange", "undefined"),
+                    "medicamente": pacient_data.get("medicamente", "undefined"),
+                    "vaccinuri": pacient_data.get("vaccinuri", "undefined"),
+                }
+            }
+        else:
+            return {"message": "Pacient data not found"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/get_pacient_data/{pacient_id}")
+async def get_pacient_data(pacient_id: str):
+    try:
+        
+        pacient_data = await db[PACIENTI_DB_ACCOUNTS].find_one({"id": pacient_id})
+
+        if pacient_data:
+            return {
+                "message": "Pacient data found",
+                "data": {
+                    "First Name": pacient_data.get("first_name", "undefined"),
+                    "Last Name": pacient_data.get("last_name", "undefined"),
+                    "Email": pacient_data.get("email", "undefined"),
+                    "Phone Number": pacient_data.get("phone_number", "undefined"),
+                    "Gender": pacient_data.get("gender", "undefined"),
+                    "Age": pacient_data.get("age", "undefined")
+                }
+            }
+
+        else:
+            return {"message": "Pacient data not found"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

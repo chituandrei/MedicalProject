@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -16,48 +16,58 @@ import CakeOutlinedIcon from '@mui/icons-material/CakeOutlined';
 import BloodtypeIcon from '@mui/icons-material/Bloodtype';
 import MedicationLiquidIcon from '@mui/icons-material/MedicationLiquid';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
-
-const pacient = [
-  {
-    "_id":{"$oid":"66560f75734a6fd7b62d9d14"},
-    "first_name":"Alexandra",
-    "last_name":"Popescu",
-    "email":"popescualexandra1602@gmail.com",
-    "password":"$2b$12$./ElAE9fJT2k4Q0xEUZFkuFj6oBThHlZRV3oVjAF8jAmxp6Fry8ca",
-    "age":"21",
-    "gender":"Male",
-    "phone_number":"0745361011",
-    "account_type":"Pacient"
-  }
-];
+import axios from 'axios';
+import { getUserId } from '../auth_context/UserContext';
 
 const PacientHomePage = () => {
-  const firstPacient = pacient[0];
+  const [pacientData, setPacientData] = useState(null);
+  const [pacientAnalize, setPacientAnalize] = useState(null);
+
+  useEffect(() => {
+    const getPacientData = async () => {
+      try {
+        const id = getUserId(); // Obținem ID-ul utilizatorului folosind funcția importată
+        const response = await axios.get(`http://127.0.0.1:8000/get_pacient_data/${id}`);
+        console.log(response.data); // Adaugă acest console.log pentru a vedea datele primite de la server
+        setPacientData(response.data.data);
+        const responseAnalize = await axios.get(`http://127.0.0.1:8000/get_pacient/analize/${id}`);
+        console.log(responseAnalize.data);
+        setPacientAnalize(responseAnalize.data.data);
+
+      } catch (error) {
+        console.error('Error fetching pacient data:', error);
+      }
+    };
+
+    const id = getUserId(); // Obținem ID-ul utilizatorului folosind funcția importată
+    if (id) {
+      getPacientData(); // Apelăm funcția pentru a obține datele pacientului dacă ID-ul este disponibil
+    }
+  }, []); // Nu mai avem nevoie de `userData.id` ca dependență, deoarece obținem ID-ul direct din modulul userSession
 
   return (
     <React.Fragment>
       <CssBaseline />
       <Box
         sx={{
-
           display: 'flex',
           justifyContent: 'center',
           gap: '20px',
-          marginTop: '50px', 
+          marginTop: '50px',
         }}
       >
         <Container
           maxWidth="sm"
           sx={{
-            bgcolor: 'white', 
+            bgcolor: 'white',
             border: '2px solid green',
             borderRadius: '16px',
             display: 'flex',
-            flexDirection: 'column', 
+            flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            padding: 3, 
-            width: '50%', // Latimea containerului parinte
+            padding: 3,
+            width: '50%',
           }}
         >
           <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
@@ -67,7 +77,7 @@ const PacientHomePage = () => {
                   <BadgeOutlinedIcon />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={firstPacient.first_name} secondary={firstPacient.last_name} />
+              <ListItemText primary={`First Name: ${pacientData?.["First Name"]}`} secondary={`Last Name: ${pacientData?.["Last Name"]}`} />
             </ListItem>
             <ListItem>
               <ListItemAvatar>
@@ -75,7 +85,7 @@ const PacientHomePage = () => {
                   <AlternateEmailOutlinedIcon />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={firstPacient.email} />
+              <ListItemText primary={`Email: ${pacientData?.["Email"]}`} />
             </ListItem>
             <ListItem>
               <ListItemAvatar>
@@ -83,7 +93,7 @@ const PacientHomePage = () => {
                   <LocalPhoneOutlinedIcon />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={firstPacient.phone_number} />
+              <ListItemText primary={`Phone Number: ${pacientData?.["Phone Number"]}`} />
             </ListItem>
             <ListItem>
               <ListItemAvatar>
@@ -91,7 +101,7 @@ const PacientHomePage = () => {
                   <WcOutlinedIcon />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={firstPacient.gender} />
+              <ListItemText primary={`Gender: ${pacientData?.["Gender"]}`} />
             </ListItem>
             <ListItem>
               <ListItemAvatar>
@@ -99,33 +109,32 @@ const PacientHomePage = () => {
                   <CakeOutlinedIcon />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={firstPacient.age} />
+              <ListItemText primary={`Age: ${pacientData?.["Age"]}`} />
             </ListItem>
           </List>
         </Container>
-        {/* Al doilea container */}
         <Container
           maxWidth="sm"
           sx={{
-            bgcolor: 'white', 
+            bgcolor: 'white',
             border: '2px solid green',
             borderRadius: '16px',
             display: 'flex',
-            flexDirection: 'column', 
+            flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            padding: 3, 
-            width: '50%', // Latimea containerului parinte
+            padding: 3,
+            width: '50%',
           }}
         >
           <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-          <ListItem>
+            <ListItem>
               <ListItemAvatar>
                 <Avatar>
                   <BloodtypeIcon />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary="Grupa de sange" secondary="Empty" />
+              <ListItemText primary="Blood Type" secondary={pacientAnalize?.["grupa_sange"] || 'Empty'} />
             </ListItem>
             <ListItem>
               <ListItemAvatar>
@@ -133,7 +142,7 @@ const PacientHomePage = () => {
                   <MedicationLiquidIcon />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary="Medicamente" secondary="Empty" />
+              <ListItemText primary="Medications" secondary={pacientAnalize?.["medicamente"] || 'Empty'} />
             </ListItem>
             <ListItem>
               <ListItemAvatar>
@@ -141,7 +150,7 @@ const PacientHomePage = () => {
                   <VaccinesIcon />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary="Vaccinuri" secondary="Empty" />
+              <ListItemText primary="Vaccines" secondary={pacientAnalize?.["vaccinuri"] || 'Empty'} />
             </ListItem>
           </List>
           <div>

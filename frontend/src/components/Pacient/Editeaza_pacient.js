@@ -1,44 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-
-const initialPacient = {
-  "_id": { "$oid": "66560f75734a6fd7b62d9d14" },
-  "first_name": "Alexandra",
-  "last_name": "Popescu",
-  "email": "popescualexandra1602@gmail.com",
-  "password": "$2b$12$./ElAE9fJT2k4Q0xEUZFkuFj6oBThHlZRV3oVjAF8jAmxp6Fry8ca",
-  "age": "21",
-  "gender": "Male",
-  "phone_number": "0745361011",
-  "grupa_de_sange": "",
-  "medicamente": "",
-  "vaccinuri": ""
-};
+import axios from 'axios';
+import { getAccountType, getUserId } from '../auth_context/UserContext'; // Importăm funcția getUserId din modulul UserContext
+import { useNavigate } from 'react-router-dom'
 
 const options = ['OI', 'AII', 'BIII', 'ABIV'];
 
 const EditeazaProfil = () => {
-  const [pacient, setPacient] = useState(initialPacient);
   const [grupaSange, setGrupaSange] = useState(options[0]);
-  const [inputGrupaSange, setInputGrupaSange] = useState('');
   const [medicamente, setMedicamente] = useState('');
   const [vaccinuri, setVaccinuri] = useState('');
+  const navigate = useNavigate()
 
-  const handleUpdateProfil = () => {
-    const updatedPacient = {
-      ...pacient,
-      grupa_de_sange: grupaSange,
-      medicamente: medicamente,
-      vaccinuri: vaccinuri
-    };
-    setPacient(updatedPacient);
-    console.log("Profil actualizat:", updatedPacient);
+  const handleUpdateProfil = async () => {
+    const id = getUserId(); // Obținem ID-ul utilizatorului folosind funcția importată
+    console.log('ID before updating profile:', id);
+    if (id) {
+      try {
+        console.log('User ID:', id);
+        const updatedPacient = {
+          grupa_de_sange: grupaSange,
+          medicamente: medicamente,
+          vaccinuri: vaccinuri
+        };
+
+        const response = await axios.post(`http://127.0.0.1:8000/publish_pacienti/analize/${id}`, updatedPacient, id); // Folosim ID-ul obținut pentru a face cererea POST
+        console.log('Profil actualizat:', response.data);
+        
+        navigate('/pacient'); // Navigăm către pagina /pacient după actualizare
+      } catch (error) {
+        console.error('Error updating profile:', error);
+      }
+    } else {
+      console.error('User ID is null');
+    }
   };
+
+  
 
   return (
     <React.Fragment>
@@ -72,10 +75,6 @@ const EditeazaProfil = () => {
               onChange={(event, newValue) => {
                 setGrupaSange(newValue);
               }}
-              inputValue={inputGrupaSange}
-              onInputChange={(event, newInputValue) => {
-                setInputGrupaSange(newInputValue);
-              }}
               id="controllable-states-demo"
               options={options}
               sx={{
@@ -97,14 +96,17 @@ const EditeazaProfil = () => {
                   },
                 },
               }}
-              renderInput={(params) => <TextField {...params} label="Grupa de sange" />}
+              renderInput={(params) => <TextField {...params} label="Grupa de sânge" />}
             />
           </div>
           <br />
-          <Box
-            component="form"
+          <TextField
+            id="outlined-basic"
+            label="Medicamente"
+            variant="outlined"
+            value={medicamente}
+            onChange={(e) => setMedicamente(e.target.value)}
             sx={{
-              '& > :not(style)': { m: 1, width: '25ch' },
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
                   borderColor: '#FF90BC',
@@ -122,22 +124,15 @@ const EditeazaProfil = () => {
                 },
               },
             }}
-            noValidate
-            autoComplete="off"
-          >
-            <TextField
-              id="outlined-basic"
-              label="Medicamente"
-              variant="outlined"
-              value={medicamente}
-              onChange={(e) => setMedicamente(e.target.value)}
-            />
-          </Box>
+          />
           <br />
-          <Box
-            component="form"
+          <TextField
+            id="outlined-basic"
+            label="Vaccinuri"
+            variant="outlined"
+            value={vaccinuri}
+            onChange={(e) => setVaccinuri(e.target.value)}
             sx={{
-              '& > :not(style)': { m: 1, width: '25ch' },
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
                   borderColor: '#FF90BC',
@@ -155,17 +150,7 @@ const EditeazaProfil = () => {
                 },
               },
             }}
-            noValidate
-            autoComplete="off"
-          >
-            <TextField
-              id="outlined-basic"
-              label="Vaccinuri"
-              variant="outlined"
-              value={vaccinuri}
-              onChange={(e) => setVaccinuri(e.target.value)}
-            />
-          </Box>
+          />
           <br />
           <div>
             <Button
@@ -182,8 +167,6 @@ const EditeazaProfil = () => {
               Profil Editat
             </Button>
           </div>
-          <br />
-          {/* <pre>{JSON.stringify(pacient, null, 2)}</pre> */}
         </Container>
       </Box>
     </React.Fragment>
