@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './DoctorList.css';
 import UserProfileCard from './UserProfileCard';
-import imagefemeie from '../images/cover.jpg';
-import imagebarbat from '../images/logo.png';
+import imagefemeie from '../images/doctor_femeie.jpg';
+import imagebarbat from '../images/doctor_barbat.jpg';
 import Grid from '@mui/material/Grid';
 import axios from 'axios';
 
