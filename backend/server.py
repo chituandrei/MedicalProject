@@ -69,12 +69,9 @@ class Pacient(BaseModel):
     phone_number: str
 
 class PatientDetails(BaseModel):
-    blood_group: str
-    medications: str
-    vaccinations: str
-    allergies: str
-    chronic_diseases: str
-    relevant_details: str
+    grupa_de_sange: str
+    medicamente: str
+    vaccinuri: str
 
 class LoginData(BaseModel):
     email: str
@@ -133,15 +130,15 @@ async def login_pacient(user_data: LoginData):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/publish_pacienti/analize/{patient_id}")
-async def publish_patient_details(patient_id: str, patient_details: PatientDetails):
+async def publish_patient_details(patient_details: PatientDetails, patient_id):
     try:
         # Check if patient_id exists in the database
         patient_data = await db[PACIENTI_DB_ACCOUNTS].find_one({"id": patient_id})
         if patient_data:
             # If patient_id exists, update the record
             await db[PACIENTI_DB_ACCOUNTS].update_one({"id": patient_id}, {"$set": patient_details.dict()})
-
             return {"message": "Patient details published successfully"}
+
         return {"message" : "Patient not found"}
     except Exception as e:
         return {"error": str(e)}
@@ -149,24 +146,19 @@ async def publish_patient_details(patient_id: str, patient_details: PatientDetai
 @app.get("/get_pacient/analize/{patient_id}")
 async def get_pacient_analize(patient_id: str):
     try:
-        
-        pacient_data = await db[PACIENTI_DB_ACCOUNTS].find_one({"id": pacient_id})
+        pacient_data = await db[PACIENTI_DB_ACCOUNTS].find_one({"id": patient_id})
 
         if pacient_data:
             return {
                 "message": "Pacient data found",
                 "data": {
-                    "blood_group": pacient_data.get("blood_group", "undefined"),
-                    "medications": pacient_data.get("medications", "undefined"),
-                    "vaccinations": pacient_data.get("vaccinations", "undefined"),
-                    "allergies": pacient_data.get("allergies", "undefined"),
-                    "chronic_diseases": pacient_data.get("chronic_diseases", "undefined"),
-                    "relevant_details": pacient_data.get("relevant_details", "undefined")
+                    "grupa_sange": pacient_data.get("grupa_de_sange", "undefined"),
+                    "medicamente": pacient_data.get("medicamente", "undefined"),
+                    "vaccinuri": pacient_data.get("vaccinuri", "undefined"),
                 }
             }
         else:
             return {"message": "Pacient data not found"}
-
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

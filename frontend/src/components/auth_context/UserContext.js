@@ -1,10 +1,12 @@
 // userSession.js
-let userId = null;
-let accountType = null;
+let userId = localStorage.getItem('userId') || null;
+let accountType = localStorage.getItem('accountType') || null;
 
 export const setUserData = (id, type) => {
   userId = id;
   accountType = type;
+  localStorage.setItem('userId', id);
+  localStorage.setItem('accountType', type);
 };
 
 export const getUserId = () => {

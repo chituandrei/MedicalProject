@@ -21,6 +21,7 @@ import { getUserId } from '../auth_context/UserContext';
 
 const PacientHomePage = () => {
   const [pacientData, setPacientData] = useState(null);
+  const [pacientAnalize, setPacientAnalize] = useState(null);
 
   useEffect(() => {
     const getPacientData = async () => {
@@ -29,6 +30,10 @@ const PacientHomePage = () => {
         const response = await axios.get(`http://127.0.0.1:8000/get_pacient_data/${id}`);
         console.log(response.data); // Adaugă acest console.log pentru a vedea datele primite de la server
         setPacientData(response.data.data);
+        const responseAnalize = await axios.get(`http://127.0.0.1:8000/get_pacient/analize/${id}`);
+        console.log(responseAnalize.data);
+        setPacientAnalize(responseAnalize.data.data);
+
       } catch (error) {
         console.error('Error fetching pacient data:', error);
       }
@@ -72,7 +77,7 @@ const PacientHomePage = () => {
                   <BadgeOutlinedIcon />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={`First Name: ${pacientData?.["First Name"]}`} secondary={`Last Name: ${pacientData?.last_name}`} />
+              <ListItemText primary={`First Name: ${pacientData?.["First Name"]}`} secondary={`Last Name: ${pacientData?.["Last Name"]}`} />
             </ListItem>
             <ListItem>
               <ListItemAvatar>
@@ -129,7 +134,7 @@ const PacientHomePage = () => {
                   <BloodtypeIcon />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary="Blood Type" secondary={pacientData?.blood_type || 'Empty'} />
+              <ListItemText primary="Blood Type" secondary={pacientAnalize?.["grupa_sange"] || 'Empty'} />
             </ListItem>
             <ListItem>
               <ListItemAvatar>
@@ -137,7 +142,7 @@ const PacientHomePage = () => {
                   <MedicationLiquidIcon />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary="Medications" secondary={pacientData?.medications || 'Empty'} />
+              <ListItemText primary="Medications" secondary={pacientAnalize?.["medicamente"] || 'Empty'} />
             </ListItem>
             <ListItem>
               <ListItemAvatar>
@@ -145,26 +150,29 @@ const PacientHomePage = () => {
                   <VaccinesIcon />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary="Vaccines" secondary={pacientData?.vaccines || 'Empty'} />
+              <ListItemText primary="Vaccines" secondary={pacientAnalize?.["vaccinuri"] || 'Empty'} />
             </ListItem>
           </List>
-          <Button
-            variant="contained"
-            size="large"
-            sx={{
-              backgroundColor: '#FF90BC',
-              marginTop: '20px',
-              '&:hover': {
-                backgroundColor: '#FFC0D9',
-              },
-            }}
-          >
-            Edit Profile
-          </Button>
+          <div>
+          <a href="/MedicalProject/editeaza_pacient" style={{ textDecoration: 'none' }}>
+            <Button
+              variant="contained"
+              size="large"
+              sx={{
+                backgroundColor: '#FF90BC', // Change this color to your desired color
+                '&:hover': {
+                  backgroundColor: '#FFC0D9', // Change this color to your desired hover color
+                },
+              }}
+            >
+              Profilul Pacientului
+            </Button>
+          </a>
+        </div>
         </Container>
       </Box>
       <br />
-      <div>
+      <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }}>
         <a href="/MedicalProject/doctor_list" style={{ textDecoration: 'none' }}>
           <Button
             variant="contained"
@@ -176,10 +184,10 @@ const PacientHomePage = () => {
               },
             }}
           >
-            Pacient Profile
+            Vizualizeaza doctorii
           </Button>
         </a>
-      </div>
+      </Box>
     </React.Fragment>
   );
 }
